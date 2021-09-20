@@ -1,0 +1,44 @@
+<mat-toolbar color="primary">
+  <span>First Backend NodeJS Client</span>
+</mat-toolbar>
+
+<div>
+  <div>
+    <h1>Projects</h1>
+
+    <mat-divider></mat-divider>
+    <div class="projects">
+      <mat-card *ngFor="let project of projects">
+        <mat-card-header>
+          <mat-card-title>{{ project.name }}</mat-card-title>
+          <mat-card-subtitle>{{ project.category }}</mat-card-subtitle>
+        </mat-card-header>
+        <img
+          mat-card-image
+          [src]="project.image"
+          [alt]="project.name + ' image'"
+        />
+        <mat-card-content>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip
+              color="accent"
+              *ngFor="let lang of project.langs.split(',')"
+              >{{ lang }}</mat-chip
+            >
+          </mat-chip-list>
+          <p>
+            {{ project.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
