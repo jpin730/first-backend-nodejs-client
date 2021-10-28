@@ -2,8 +2,8 @@ export interface Project {
   name: string;
   description: string;
   category: string;
-  year: string;
+  year: number;
   langs: string;
-  image?: string;
+  image: string;
   _id: string;
 }

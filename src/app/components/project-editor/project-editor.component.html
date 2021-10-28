@@ -11,6 +11,60 @@
     </mat-error>
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input matInput [formControl]="description" />
+    <mat-error *ngIf="description.hasError('required')">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <input matInput [formControl]="category" />
+    <mat-error *ngIf="category.hasError('required')">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Year</mat-label>
+    <input
+      matInput
+      class="clickable"
+      [formControl]="year"
+      [min]="minYear"
+      [max]="maxYear"
+      [matDatepicker]="picker"
+      (click)="picker.open()"
+      readonly
+    />
+    <mat-datepicker
+      #picker
+      startView="multi-year"
+      (yearSelected)="yearSelected($event, picker)"
+    ></mat-datepicker>
+    <mat-error *ngIf="year.hasError('required')">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Languages</mat-label>
+    <input matInput [formControl]="langs" />
+    <mat-error *ngIf="langs.hasError('required')">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Image</mat-label>
+    <input matInput [formControl]="image" />
+    <mat-error *ngIf="image.hasError('required')">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
   <div class="actions">
     <button mat-flat-button color="warn" [mat-dialog-close]>Cancel</button>
     <button mat-flat-button color="primary" [disabled]="projectForm.invalid">
