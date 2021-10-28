@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'http://localhost:3700/api',
+  baseApiUrl: 'https://first-backend-nodejs.herokuapp.com/api',
 };
 
 /*
