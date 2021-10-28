@@ -11,7 +11,9 @@
     <div class="projects">
       <mat-card *ngFor="let project of projects">
         <mat-card-header>
-          <mat-card-title>{{ project.name }}</mat-card-title>
+          <mat-card-title
+            >{{ project.name }} ({{ project.year }})
+          </mat-card-title>
           <mat-card-subtitle>{{ project.category }}</mat-card-subtitle>
         </mat-card-header>
         <img
@@ -46,4 +48,12 @@
       </mat-card>
     </div>
   </div>
+</div>
+
+<div
+  class="spinner-container"
+  *ngIf="showSpinner$ | async"
+  (click)="$event.stopPropagation()"
+>
+  <mat-spinner></mat-spinner>
 </div>
