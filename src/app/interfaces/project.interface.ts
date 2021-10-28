@@ -5,4 +5,5 @@ export interface Project {
   year: string;
   langs: string;
   image?: string;
+  _id: string;
 }

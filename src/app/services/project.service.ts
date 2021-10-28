@@ -16,4 +16,10 @@ export class ProjectsService {
       `${environment.baseApiUrl}/${this.endpoint}`
     );
   }
+
+  getProject(id: string) {
+    return this.httpClient.get<Project>(
+      `${environment.baseApiUrl}/${this.endpoint}/${id}`
+    );
+  }
 }

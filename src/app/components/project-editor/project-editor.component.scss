@@ -1,0 +1,19 @@
+.mat-divider {
+  margin-bottom: 2em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button:first-of-type {
+    margin-right: 1em;
+  }
+}

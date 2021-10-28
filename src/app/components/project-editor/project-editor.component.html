@@ -1,0 +1,20 @@
+<h1>Project Editor</h1>
+
+<mat-divider></mat-divider>
+
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [formControl]="name" />
+    <mat-error *ngIf="name.hasError('required')">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-flat-button color="warn" [mat-dialog-close]>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="projectForm.invalid">
+      Save
+    </button>
+  </div>
+</form>
