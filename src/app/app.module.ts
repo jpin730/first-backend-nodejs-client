@@ -7,9 +7,10 @@ import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
 
 @NgModule({
-  declarations: [AppComponent, ProjectEditorComponent],
+  declarations: [AppComponent, ProjectEditorComponent, ProjectCardComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

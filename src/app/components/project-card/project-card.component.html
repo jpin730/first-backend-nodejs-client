@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ project.name }} ({{ project.year }}) </mat-card-title>
+    <mat-card-subtitle>{{ project.category }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="project.image" [alt]="project.name + ' image'" />
+  <mat-card-content>
+    <mat-chip-list aria-label="Fish selection">
+      <mat-chip color="primary" *ngFor="let lang of langs">{{ lang }}</mat-chip>
+    </mat-chip-list>
+    <p>
+      {{ project.description }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-flat-button color="warn">
+      <span>Delete</span>
+    </button>
+    <button mat-flat-button color="primary" (click)="editProject(project._id)">
+      <span>Edit</span>
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import {
-  ProjectEditorComponent,
-  ProjectEditorDialogData,
-} from './components/project-editor/project-editor.component';
 import { Project } from './interfaces/project.interface';
 import { ProjectsService } from './services/project.service';
 import { SpinnerService } from './services/spinner.service';
@@ -20,7 +15,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private projectsService: ProjectsService,
-    private matDialog: MatDialog,
     private spinnerService: SpinnerService
   ) {}
 
@@ -31,15 +25,5 @@ export class AppComponent implements OnInit {
       this.projects = [...projects];
       this.spinnerService.hide();
     });
-  }
-
-  editProject(id: string) {
-    const matDialogConfig: MatDialogConfig<ProjectEditorDialogData> = {
-      data: { id, editMode: true },
-      disableClose: true,
-      width: '80vw',
-      maxWidth: '350px',
-    };
-    this.matDialog.open(ProjectEditorComponent, matDialogConfig);
   }
 }
