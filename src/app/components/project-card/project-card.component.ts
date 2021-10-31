@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Project } from 'src/app/interfaces/project.interface';
 import {
@@ -10,12 +15,17 @@ import {
   selector: 'app-project-card',
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectCardComponent {
+export class ProjectCardComponent implements OnInit {
   @Input() project!: Project;
-  langs = this.project?.langs.split(',');
+  langs!: string[];
 
   constructor(private matDialog: MatDialog) {}
+
+  ngOnInit() {
+    this.langs = this.project.langs.split(',');
+  }
 
   editProject(id: string) {
     const matDialogConfig: MatDialogConfig<ProjectEditorDialogData> = {
