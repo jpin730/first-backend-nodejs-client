@@ -1,0 +1,7 @@
+<div
+  class="spinner-container"
+  *ngIf="showSpinner$ | async"
+  (click)="$event.stopPropagation()"
+>
+  <mat-spinner></mat-spinner>
+</div>

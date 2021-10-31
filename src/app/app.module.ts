@@ -8,9 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
-  declarations: [AppComponent, ProjectEditorComponent, ProjectCardComponent],
+  declarations: [AppComponent, ProjectEditorComponent, ProjectCardComponent, SpinnerComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

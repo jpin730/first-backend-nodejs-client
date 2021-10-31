@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Project } from './interfaces/project.interface';
 import { ProjectsService } from './services/project.service';
 import { SpinnerService } from './services/spinner.service';
@@ -11,7 +10,6 @@ import { SpinnerService } from './services/spinner.service';
 })
 export class AppComponent implements OnInit {
   projects: Project[] = [];
-  showSpinner$!: Observable<boolean>;
 
   constructor(
     private projectsService: ProjectsService,
@@ -19,7 +17,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.showSpinner$ = this.spinnerService.show$;
     this.spinnerService.show();
     this.projectsService.getProjects().subscribe((projects) => {
       this.projects = [...projects];
