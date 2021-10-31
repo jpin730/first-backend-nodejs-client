@@ -6,7 +6,9 @@
   <img mat-card-image [src]="project.image" [alt]="project.name + ' image'" />
   <mat-card-content>
     <mat-chip-list aria-label="Fish selection">
-      <mat-chip color="primary" *ngFor="let lang of langs">{{ lang }}</mat-chip>
+      <mat-chip *ngFor="let lang of langs" color="accent" selected>{{
+        lang
+      }}</mat-chip>
     </mat-chip-list>
     <p>
       {{ project.description }}
