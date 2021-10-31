@@ -16,6 +16,11 @@
   }
 }
 
+.mat-toolbar .mat-icon {
+  vertical-align: text-bottom;
+  margin-right: 0.4em;
+}
+
 .projects {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
