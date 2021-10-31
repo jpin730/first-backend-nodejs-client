@@ -1,6 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Project } from 'src/app/interfaces/project.interface';
 import { ProjectsService } from 'src/app/services/project.service';
@@ -11,10 +17,30 @@ export interface ProjectEditorDialogData {
   editMode: boolean;
 }
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
   styleUrls: ['./project-editor.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class ProjectEditorComponent implements OnInit {
   projectForm = this.fb.group({
