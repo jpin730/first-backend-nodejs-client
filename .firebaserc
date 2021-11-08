@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "first-backend-nodejs": {
+      "hosting": {
+        "first-backend-nodejs-client": [
+          "first-backend-nodejs"
+        ]
+      }
+    }
+  }
+}
