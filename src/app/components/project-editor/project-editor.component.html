@@ -89,7 +89,12 @@
     <mat-error *ngIf="imageError">
       Invalid file (only JPG or PNG, max. {{ imageMaxSizeMB }} MB)</mat-error
     >
-    <img [src]="imagePreview" />
+    <img
+      [src]="imagePreview"
+      alt="Image is required"
+      class="clickable"
+      (click)="fileInput.click()"
+    />
   </div>
 
   <div class="actions">
@@ -105,7 +110,14 @@
       mat-flat-button
       type="submit"
       color="primary"
-      [disabled]="!((projectForm.valid && projectForm.dirty) || image.dirty)"
+      [disabled]="
+        !(
+          (dialogData.editMode &&
+            (image.dirty || (projectForm.valid && projectForm.dirty))) ||
+          (!dialogData.editMode &&
+            projectForm.valid && projectForm.dirty && image.dirty)
+        )
+      "
     >
       Save
     </button>

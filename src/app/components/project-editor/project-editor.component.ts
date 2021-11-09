@@ -63,7 +63,7 @@ export class ProjectEditorComponent implements OnInit {
   imagePreview!: string;
   imageMaxSizeMB = 2;
   imageError = false;
-  langList!: string[];
+  langList: string[] = [];
 
   get minYear() {
     return moment('1990');
@@ -99,7 +99,7 @@ export class ProjectEditorComponent implements OnInit {
 
   constructor(
     private projectsService: ProjectsService,
-    @Inject(MAT_DIALOG_DATA) private dialogData: ProjectEditorDialogData,
+    @Inject(MAT_DIALOG_DATA) public dialogData: ProjectEditorDialogData,
     private fb: FormBuilder,
     private spinnerService: SpinnerService,
     public dialogRef: MatDialogRef<ProjectEditorComponent>
@@ -174,16 +174,7 @@ export class ProjectEditorComponent implements OnInit {
     if (this.dialogData.editMode) {
       this.projectsService
         .putProject(project)
-        .pipe(
-          switchMap((projectUpdated) =>
-            this.image.dirty && this.imageFile
-              ? this.projectsService.putProjectImage(
-                  projectUpdated._id,
-                  this.imageFile
-                )
-              : of(projectUpdated)
-          )
-        )
+        .pipe(switchMap((projectUpdated) => this.uploadImage(projectUpdated)))
         .subscribe((projectUpdated) => {
           this.dialogRef.close(projectUpdated);
           this.spinnerService.hide();
@@ -192,6 +183,14 @@ export class ProjectEditorComponent implements OnInit {
       // this.projectsService.postProject(project).subscribe((project) => {
       //   console.log(project);
       // });
+      this.projectsService
+        .postProject(project)
+        .pipe(switchMap((projectUpdated) => this.uploadImage(projectUpdated)))
+
+        .subscribe((projectUpdated) => {
+          this.dialogRef.close(projectUpdated);
+          this.spinnerService.hide();
+        });
     }
   }
 
@@ -201,6 +200,7 @@ export class ProjectEditorComponent implements OnInit {
       this.langList.push(value);
       this.patchLangsValue();
     }
+    this.chipList.errorState = this.langList.length === 0;
     event.chipInput!.clear();
   }
 
@@ -210,6 +210,7 @@ export class ProjectEditorComponent implements OnInit {
       this.langList.splice(index, 1);
       this.patchLangsValue();
     }
+    this.chipList.errorState = this.langList.length === 0;
   }
 
   private setLangList(langs: string) {
@@ -220,6 +221,11 @@ export class ProjectEditorComponent implements OnInit {
     const value = this.langList.length === 0 ? '' : this.langList.join(',');
     this.langs.patchValue(value);
     this.langs.markAsDirty();
-    this.chipList.errorState = value === '';
+  }
+
+  private uploadImage(projectUpdated: Project) {
+    return this.image.dirty && this.imageFile
+      ? this.projectsService.putProjectImage(projectUpdated._id, this.imageFile)
+      : of(projectUpdated);
   }
 }

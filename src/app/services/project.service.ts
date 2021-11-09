@@ -28,6 +28,13 @@ export class ProjectsService {
     );
   }
 
+  postProject(project: Project) {
+    return this.httpClient.post<Project>(
+      `${environment.baseApiUrl}/${this.endpoint}/${project._id}`,
+      project
+    );
+  }
+
   putProject(project: Project) {
     return this.httpClient.put<Project>(
       `${environment.baseApiUrl}/${this.endpoint}/${project._id}`,
