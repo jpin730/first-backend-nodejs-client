@@ -44,5 +44,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Firebase
+# Firebase (gitignore.io)
+.idea
+**/node_modules/*
+**/.firebaserc
+.runtimeconfig.json
 .firebase/
