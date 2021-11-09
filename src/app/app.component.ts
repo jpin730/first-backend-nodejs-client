@@ -59,4 +59,14 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  deleteProject(id: string) {
+    this.spinnerService.show();
+    this.projectsService.deleteProject(id).subscribe((projectDeleted) => {
+      this.projects = this.projects.filter(
+        (project) => project._id !== projectDeleted._id
+      );
+      this.spinnerService.hide();
+    });
+  }
 }

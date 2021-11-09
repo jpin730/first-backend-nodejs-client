@@ -12,6 +12,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { environment } from 'src/environments/environment';
     ProjectEditorComponent,
     ProjectCardComponent,
     SpinnerComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

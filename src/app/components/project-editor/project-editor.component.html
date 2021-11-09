@@ -1,4 +1,4 @@
-<h1>Project Editor</h1>
+<h2>Project Editor</h2>
 
 <mat-divider></mat-divider>
 
@@ -115,7 +115,9 @@
           (dialogData.editMode &&
             (image.dirty || (projectForm.valid && projectForm.dirty))) ||
           (!dialogData.editMode &&
-            projectForm.valid && projectForm.dirty && image.dirty)
+            projectForm.valid &&
+            projectForm.dirty &&
+            image.dirty)
         )
       "
     >

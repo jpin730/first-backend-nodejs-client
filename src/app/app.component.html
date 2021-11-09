@@ -18,9 +18,12 @@
   <mat-divider></mat-divider>
 
   <div class="projects">
+    <h3 *ngIf="projects.length === 0">No projects created</h3>
+
     <app-project-card
       *ngFor="let project of projects"
       [project]="project"
+      (deleted)="deleteProject($event)"
     ></app-project-card>
   </div>
 </div>
