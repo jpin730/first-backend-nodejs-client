@@ -57,17 +57,43 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Image</mat-label>
-    <input matInput [formControl]="image" />
-    <mat-error *ngIf="image.hasError('required')">
-      You must enter a value
-    </mat-error>
-  </mat-form-field>
+  <div class="uploader">
+    <button
+      mat-flat-button
+      type="button"
+      color="accent"
+      (click)="fileInput.click()"
+    >
+      Upload image
+    </button>
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onFileSelected($event)"
+    />
+    <mat-error *ngIf="imageError">
+      Invalid file (only JPG or PNG, max. {{ imageMaxSizeMB }} MB)</mat-error
+    >
+    <img [src]="imagePreview" />
+  </div>
 
   <div class="actions">
-    <button mat-flat-button color="warn" [mat-dialog-close]>Cancel</button>
-    <button mat-flat-button color="primary" [disabled]="projectForm.invalid">
+    <button
+      mat-flat-button
+      type="button"
+      color="warn"
+      [mat-dialog-close]="undefined"
+    >
+      Cancel
+    </button>
+    <button
+      mat-flat-button
+      type="submit"
+      color="primary"
+      [disabled]="!((projectForm.valid && projectForm.dirty) || image.dirty)"
+    >
       Save
     </button>
   </div>

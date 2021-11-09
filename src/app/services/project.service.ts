@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../interfaces/project.interface';
 import { environment } from '../../environments/environment';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { last, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,10 @@ import { environment } from '../../environments/environment';
 export class ProjectsService {
   endpoint = 'projects';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private angularFireStorage: AngularFireStorage
+  ) {}
 
   getProjects() {
     return this.httpClient.get<Project[]>(
@@ -20,6 +25,27 @@ export class ProjectsService {
   getProject(id: string) {
     return this.httpClient.get<Project>(
       `${environment.baseApiUrl}/${this.endpoint}/${id}`
+    );
+  }
+
+  putProject(project: Project) {
+    return this.httpClient.put<Project>(
+      `${environment.baseApiUrl}/${this.endpoint}/${project._id}`,
+      project
+    );
+  }
+
+  putProjectImage(id: string, imageFile: File) {
+    const task = this.angularFireStorage.upload(id, imageFile);
+    return task.snapshotChanges().pipe(
+      last(),
+      switchMap(() => this.angularFireStorage.ref(id).getDownloadURL()),
+      switchMap((image: string) =>
+        this.httpClient.put<Project>(
+          `${environment.baseApiUrl}/${this.endpoint}/${id}/image`,
+          { image }
+        )
+      )
     );
   }
 }

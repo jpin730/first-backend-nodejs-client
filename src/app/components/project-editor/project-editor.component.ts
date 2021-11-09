@@ -7,10 +7,13 @@ import {
 } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Project } from 'src/app/interfaces/project.interface';
 import { ProjectsService } from 'src/app/services/project.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import * as moment from 'moment';
 
 export interface ProjectEditorDialogData {
   id: string;
@@ -51,14 +54,17 @@ export class ProjectEditorComponent implements OnInit {
     langs: ['', Validators.required],
     image: [''],
   });
+  imageFile: File | null | undefined;
+  imagePreview!: string;
+  imageMaxSizeMB = 2;
+  imageError = false;
 
   get minYear() {
-    return new Date(1990, 0);
+    return moment('1990');
   }
 
   get maxYear() {
-    const todayYear = new Date().getFullYear();
-    return new Date(todayYear, 0);
+    return moment(moment().year().toString());
   }
 
   get name() {
@@ -89,7 +95,8 @@ export class ProjectEditorComponent implements OnInit {
     private projectsService: ProjectsService,
     @Inject(MAT_DIALOG_DATA) private dialogData: ProjectEditorDialogData,
     private fb: FormBuilder,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    public dialogRef: MatDialogRef<ProjectEditorComponent>
   ) {}
 
   ngOnInit() {
@@ -108,18 +115,76 @@ export class ProjectEditorComponent implements OnInit {
           name,
           description,
           category,
-          year: new Date(year, 0),
+          year: moment(year.toString()),
           langs,
           image,
         });
+        this.imagePreview = image || '';
         this.spinnerService.hide();
       });
   }
 
   yearSelected(chosenDate: Date, datepicker: MatDatepicker<any>) {
     this.year.setValue(chosenDate);
+    this.year.markAsDirty();
     datepicker.close();
   }
 
-  onSubmit() {}
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.item(0);
+
+    if (
+      file?.type.match(/image\/(jpeg|png)/) === null ||
+      (file?.size as number) > this.imageMaxSizeMB * 1e6
+    ) {
+      this.imageError = true;
+      return;
+    }
+
+    this.imageError = false;
+    this.imageFile = file;
+    this.image.markAsDirty();
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file as Blob);
+    reader.onload = () => {
+      this.imagePreview = reader.result?.toString() || this.imagePreview;
+    };
+  }
+
+  onSubmit() {
+    this.spinnerService.show();
+    const { name, description, category, year, langs } = this.projectForm.value;
+    const project: Project = {
+      _id: this.dialogData.id || '',
+      name,
+      description,
+      category,
+      year: (year as moment.Moment).year(),
+      langs,
+    };
+
+    if (this.dialogData.editMode) {
+      this.projectsService
+        .putProject(project)
+        .pipe(
+          switchMap((projectUpdated) =>
+            this.image.dirty && this.imageFile
+              ? this.projectsService.putProjectImage(
+                  projectUpdated._id,
+                  this.imageFile
+                )
+              : of(projectUpdated)
+          )
+        )
+        .subscribe((projectUpdated) => {
+          this.dialogRef.close(projectUpdated);
+          this.spinnerService.hide();
+        });
+    } else {
+      // this.projectsService.postProject(project).subscribe((project) => {
+      //   console.log(project);
+      // });
+    }
+  }
 }

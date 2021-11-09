@@ -4,6 +4,6 @@ export interface Project {
   category: string;
   year: number;
   langs: string;
-  image: string;
+  image?: string;
   _id: string;
 }
