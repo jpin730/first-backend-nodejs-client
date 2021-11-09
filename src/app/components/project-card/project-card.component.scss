@@ -35,6 +35,10 @@
     align-items: center;
     margin: 0 !important;
 
+    button {
+      margin: 0;
+    }
+
     button:first-of-type {
       margin-right: 1em;
     }

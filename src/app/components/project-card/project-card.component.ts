@@ -39,6 +39,7 @@ export class ProjectCardComponent {
       disableClose: true,
       width: '80vw',
       maxWidth: '350px',
+      maxHeight: '90vh',
     };
     const dialogRef = this.matDialog.open<
       ProjectEditorComponent,

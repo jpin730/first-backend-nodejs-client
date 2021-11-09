@@ -13,7 +13,7 @@
 
   <mat-form-field>
     <mat-label>Description</mat-label>
-    <input matInput [formControl]="description" />
+    <textarea matInput [formControl]="description"></textarea>
     <mat-error *ngIf="description.hasError('required')">
       You must enter a value
     </mat-error>
@@ -58,12 +58,7 @@
   </mat-form-field>
 
   <div class="uploader">
-    <button
-      mat-flat-button
-      type="button"
-      color="accent"
-      (click)="fileInput.click()"
-    >
+    <button mat-stroked-button type="button" (click)="fileInput.click()">
       Upload image
     </button>
     <input
