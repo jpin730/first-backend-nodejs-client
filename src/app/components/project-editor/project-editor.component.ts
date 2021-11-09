@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import {
   DateAdapter,
@@ -14,6 +14,8 @@ import { SpinnerService } from 'src/app/services/spinner.service';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
+import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 export interface ProjectEditorDialogData {
   id: string;
@@ -46,6 +48,9 @@ export const MY_FORMATS = {
   ],
 })
 export class ProjectEditorComponent implements OnInit {
+  @ViewChild('chipList')
+  chipList!: MatChipList;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
   projectForm = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
@@ -58,6 +63,7 @@ export class ProjectEditorComponent implements OnInit {
   imagePreview!: string;
   imageMaxSizeMB = 2;
   imageError = false;
+  langList!: string[];
 
   get minYear() {
     return moment('1990');
@@ -120,6 +126,7 @@ export class ProjectEditorComponent implements OnInit {
           image,
         });
         this.imagePreview = image || '';
+        this.setLangList(langs);
         this.spinnerService.hide();
       });
   }
@@ -186,5 +193,33 @@ export class ProjectEditorComponent implements OnInit {
       //   console.log(project);
       // });
     }
+  }
+
+  addChip(event: MatChipInputEvent) {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.langList.push(value);
+      this.patchLangsValue();
+    }
+    event.chipInput!.clear();
+  }
+
+  removeChip(lang: string) {
+    const index = this.langList.indexOf(lang);
+    if (index >= 0) {
+      this.langList.splice(index, 1);
+      this.patchLangsValue();
+    }
+  }
+
+  private setLangList(langs: string) {
+    this.langList = langs.split(',');
+  }
+
+  private patchLangsValue() {
+    const value = this.langList.length === 0 ? '' : this.langList.join(',');
+    this.langs.patchValue(value);
+    this.langs.markAsDirty();
+    this.chipList.errorState = value === '';
   }
 }

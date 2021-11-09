@@ -49,12 +49,30 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="lang-chips">
     <mat-label>Languages</mat-label>
-    <input matInput [formControl]="langs" />
-    <mat-error *ngIf="langs.hasError('required')">
-      You must enter a value
-    </mat-error>
+    <mat-chip-list #chipList>
+      <mat-chip
+        *ngFor="let lang of langList"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="removeChip(lang)"
+      >
+        {{ lang }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        matInput
+        placeholder="Add language..."
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="true"
+        (matChipInputTokenEnd)="addChip($event)"
+      />
+    </mat-chip-list>
+    <mat-error> You must enter a value </mat-error>
   </mat-form-field>
 
   <div class="uploader">
