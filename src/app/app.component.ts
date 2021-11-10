@@ -44,9 +44,9 @@ export class AppComponent implements OnInit {
     const matDialogConfig: MatDialogConfig<ProjectEditorDialogData> = {
       data: { id: '', editMode: false },
       disableClose: true,
-      width: '80vw',
-      maxWidth: '350px',
-      maxHeight: '90vh',
+      width: '90%',
+      maxWidth: '420px',
+      maxHeight: '80vh',
     };
     const dialogRef = this.matDialog.open<
       ProjectEditorComponent,
