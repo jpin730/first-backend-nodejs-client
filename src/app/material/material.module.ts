@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const modules = [
   MatToolbarModule,
@@ -27,6 +28,7 @@ const modules = [
   MatProgressSpinnerModule,
   MatDatepickerModule,
   MomentDateModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({

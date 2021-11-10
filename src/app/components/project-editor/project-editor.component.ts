@@ -113,9 +113,8 @@ export class ProjectEditorComponent implements OnInit {
 
   getProject() {
     this.spinnerService.show();
-    this.projectsService
-      .getProject(this.dialogData.id)
-      .subscribe((project: Project) => {
+    this.projectsService.getProject(this.dialogData.id).subscribe(
+      (project: Project) => {
         const { name, description, category, year, langs, image } = project;
         this.projectForm.patchValue({
           name,
@@ -128,7 +127,9 @@ export class ProjectEditorComponent implements OnInit {
         this.imagePreview = image || '';
         this.setLangList(langs);
         this.spinnerService.hide();
-      });
+      },
+      () => this.dialogRef.close(undefined)
+    );
   }
 
   yearSelected(chosenDate: Date, datepicker: MatDatepicker<any>) {
@@ -180,9 +181,6 @@ export class ProjectEditorComponent implements OnInit {
           this.spinnerService.hide();
         });
     } else {
-      // this.projectsService.postProject(project).subscribe((project) => {
-      //   console.log(project);
-      // });
       this.projectsService
         .postProject(project)
         .pipe(switchMap((projectUpdated) => this.uploadImage(projectUpdated)))
